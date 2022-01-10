@@ -10,8 +10,9 @@ namespace PerfTests
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IHttpClientFixture, HttpClientFixture>();
-            services.AddScoped<IStepFixture, StepFixture>();
+            services.AddScoped<IProductsStepsFixture, ProductsStepsFixture>();
             services.AddScoped<IScenarioFixture, ScenarioFixture>();
+            services.AddScoped<IProductsScenariosFixture, ProductsScenariosFixture>();
         }
     }
 }

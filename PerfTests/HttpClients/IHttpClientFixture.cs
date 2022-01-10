@@ -5,7 +5,7 @@ namespace PerfTests.HttpClients
 {
     public interface IHttpClientFixture
     {
-        HttpClient GetHttpClient();
+        HttpClient SetClient();
         Response GetResponseStatusCode(HttpResponseMessage response);
     }
 }

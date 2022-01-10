@@ -6,17 +6,13 @@ namespace PerfTests.HttpClients
 {
     public class HttpClientFixture : IHttpClientFixture
     {
-        public HttpClient GetHttpClient()
-        {
-            var httpClient = new HttpClient();
-            return httpClient;
-        }
+        public HttpClient SetClient() => new HttpClient();
 
         public Response GetResponseStatusCode(HttpResponseMessage response)
         {
             return response.IsSuccessStatusCode
-                ? Response.Ok(statusCode: (int)response.StatusCode)
-                : Response.Fail(statusCode: (int)response.StatusCode);
+                ? Response.Ok(statusCode: (int)response.StatusCode, sizeBytes: 1024)
+                : Response.Fail(statusCode: (int)response.StatusCode, sizeBytes: 1024);
         }
     }
 }
