@@ -18,7 +18,7 @@ namespace PerfTests.Steps
             return Step.Create("Get All Products", async context =>
             {
                 var response =
-                    await _httpClient.SetClient().GetAsync("http://localhost:5000/api/products", context.CancellationToken);
+                    await _httpClient.SetClient().GetAsync("/api/products", context.CancellationToken);
 
                 return _httpClient.GetResponseStatusCode(response);
             });
@@ -29,7 +29,7 @@ namespace PerfTests.Steps
             return Step.Create("Get Product By Id", async context =>
             {
                 var response =
-                    await _httpClient.SetClient().GetAsync($"http://localhost:5000/api/products/{id}", context.CancellationToken);
+                    await _httpClient.SetClient().GetAsync($"/api/products/{id}", context.CancellationToken);
 
                 return _httpClient.GetResponseStatusCode(response);
             });

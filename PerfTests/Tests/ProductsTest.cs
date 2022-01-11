@@ -19,38 +19,30 @@ namespace PerfTests.Tests
         }
 
         [Theory]
-        [Trait("Products", "Perf")]
-        [InlineData(20, 5)]
+        [InlineData(25, 5)]
         public void GetAllProductsTest(int rate, int seconds)
         {
-            var scenario = _productScenariosFixture.GetAllProducstScenario()
+            var getProductsScenario = _productScenariosFixture.GetAllProducstScenario()
                 .WithoutWarmUp()
                 .WithLoadSimulations(new[]
                 {
                     Simulation.InjectPerSec(rate: rate, during: TimeSpan.FromSeconds(seconds))
                 });
 
-            var nodeStats = NBomberRunner.RegisterScenarios(scenario).Run();
-            var stepStats = nodeStats.ScenarioStats[0].StepStats[0];
-
-            stepStats.Ok.Request.Count.Should().Be(rate * seconds);
-        }
-
-        [Theory]
-        [InlineData(20, 5)]
-        public void GetProductById(int rate, int seconds)
-        {
-            var scenario = _productScenariosFixture.GetProductByIdScenario()
+            var getProductByIdScenario = _productScenariosFixture.GetProductByIdScenario()
                 .WithoutWarmUp()
                 .WithLoadSimulations(new[]
                 {
                     Simulation.InjectPerSec(rate: rate, during: TimeSpan.FromSeconds(seconds))
                 });
 
-            var nodeStats = NBomberRunner.RegisterScenarios(scenario).Run();
-            var stepStats = nodeStats.ScenarioStats[0].StepStats[0];
+            var nodeStats = NBomberRunner.RegisterScenarios(getProductsScenario, getProductByIdScenario).Run();
+            var stepStats = nodeStats.ScenarioStats;
 
-            stepStats.Ok.Request.Count.Should().Be(rate * seconds);
+            foreach (var productScenario in stepStats)
+            {
+                productScenario.StepStats[0].Ok.Request.Count.Should().Be(rate * seconds);
+            }
         }
     }
 }

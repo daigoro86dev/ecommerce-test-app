@@ -1,12 +1,22 @@
+using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 using NBomber.Contracts;
 
 namespace PerfTests.HttpClients
 {
     public class HttpClientFixture : IHttpClientFixture
     {
-        public HttpClient SetClient() => new HttpClient();
+        public HttpClient SetClient()
+        {
+            var baseUrl = Environment.GetEnvironmentVariable("BASE_URL");
+
+            if (baseUrl == null)
+            {
+                throw new Exception("Missing BASE_URL env variable");
+            }
+
+            return new HttpClient { BaseAddress = new Uri(baseUrl) };
+        }
 
         public Response GetResponseStatusCode(HttpResponseMessage response)
         {
@@ -16,3 +26,4 @@ namespace PerfTests.HttpClients
         }
     }
 }
+
